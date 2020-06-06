@@ -1,7 +1,8 @@
 #include "MainApp.h"
 
-// IMPLEMENT_APP(MainApp) // a macro that tells wxWidgets to create an instance of our application
+// IMPLEMENT_APP(MainApp)
 IMPLEMENT_APP_CONSOLE(MainApp)
+
 bool MainApp::OnInit()
 {
 	if (!wxApp::OnInit())
@@ -10,27 +11,23 @@ bool MainApp::OnInit()
 	// Create the main application window
 	MyFrame* frame = new MyFrame(
 		_("WaterMarker"), wxPoint(1, 1), wxSize(600, 182), 
-		wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)//  | wxNO_FULL_REPAINT_ON_RESIZE & wxCLIP_CHILDREN
+		wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)
 	);
 
-	// Show it
-	frame->Show(true); // shows the window
-
+	frame->Show(true);
 	return true;
 }
 
 
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
-
-	EVT_BUTTON(BUTTON_folder, MyFrame::Button_Folder)
-	EVT_BUTTON(BUTTON_image, MyFrame::Button_Image)
-	EVT_BUTTON(BUTTON_create, MyFrame::Button_Create)
-	EVT_BUTTON(BUTTON_settings, MyFrame::Button_Settings)
-	EVT_SLIDER(SLIDER_x, MyFrame::Save_Settings)
-	EVT_SLIDER(SLIDER_y, MyFrame::Save_Settings)
-	EVT_SLIDER(SLIDER_logoSize, MyFrame::Save_LogoSize)
-	EVT_SLIDER(SLIDER_logoRadius, MyFrame::Save_LogoRadius)
-
+	EVT_BUTTON(BUTTON_folder,		MyFrame::Button_Folder)
+	EVT_BUTTON(BUTTON_image,		MyFrame::Button_Image)
+	EVT_BUTTON(BUTTON_create,		MyFrame::Button_Create)
+	EVT_BUTTON(BUTTON_settings,		MyFrame::Button_Settings)
+	EVT_SLIDER(SLIDER_x,			MyFrame::Save_Settings)
+	EVT_SLIDER(SLIDER_y,			MyFrame::Save_Settings)
+	EVT_SLIDER(SLIDER_logoSize,		MyFrame::Save_LogoSize)
+	EVT_SLIDER(SLIDER_logoRadius,	MyFrame::Save_LogoRadius)
 END_EVENT_TABLE()
 
 
@@ -38,23 +35,35 @@ END_EVENT_TABLE()
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, long style)
 	:wxFrame((wxFrame*)NULL, -1, title, pos, size),window_size(size)
 {
-	//TODO save Border color or change to needs
-	//defaultColor = 
-	//save_toFile(SaveState::SAVE_borderColor);
+
+	// set the frame icon
+	SetIcon(wxICON(icon));
 
 	//default settings
-	defaultFolder = savestate.retrieve(SaveState::SAVE_folderDir, filename_SaveState).c_str();
-	defaultImage = savestate.retrieve(SaveState::SAVE_fileDir, filename_SaveState).c_str();
+	defaultFolder	= savestate.retrieve(SaveState::SAVE_folderDir, filename_SaveState);
+	defaultImage	= savestate.retrieve(SaveState::SAVE_fileDir, filename_SaveState);
 	defaultLocation = savestate.retrieve(SaveState::SAVE_logoPos, filename_SaveState);
-	defaultScale = savestate.retrieve(SaveState::SAVE_logoSize, filename_SaveState);
-	defaultRadius = savestate.retrieve(SaveState::SAVE_borderRadius, filename_SaveState);
+	defaultScale	= savestate.retrieve(SaveState::SAVE_logoSize, filename_SaveState);
+	defaultRadius	= savestate.retrieve(SaveState::SAVE_borderRadius, filename_SaveState);
 	
-	//TODO contain some errors on "D:/images"
-	if (defaultFolder != "")
-		src_path = defaultFolder + '\\' + watermarker.get_all_file_names(defaultFolder, 1)[0];
 
-	if (defaultImage != "")
+	if (defaultFolder != "" && dirExists(defaultFolder))
+	{
+		src_path = defaultFolder + '\\' + watermarker.get_all_file_names(defaultFolder, 1)[0];
+	} 
+	else 
+	{
+		defaultFolder = "";
+	}
+
+	if (defaultImage != "" && fileExists(defaultImage))
+	{
 		logo_path = defaultImage;
+	}
+	else
+	{
+		defaultImage = "";
+	}
 
 	if (defaultLocation != "")
 	{
@@ -86,22 +95,19 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
 		defaultRadius = std::to_string(radius);
 	}
 
-
-		
-	std::cout << "FolderPath: \t\t" << src_path << std::endl;
-	std::cout << "ImagePath: \t\t" << logo_path << std::endl;
-	std::cout << "defaultX: \t\t" << defaultx << std::endl;
-	std::cout << "defaultY: \t\t" << defaulty << std::endl;
-	std::cout << "logo_scale: \t\t" << logo_scale << std::endl;
-	std::cout << "defaultRadius: \t\t" << radius << std::endl;
+	//std::cout << "FolderPath: \t\t" << src_path << std::endl;
+	//std::cout << "ImagePath: \t\t" << logo_path << std::endl;
+	//std::cout << "defaultX: \t\t" << defaultx << std::endl;
+	//std::cout << "defaultY: \t\t" << defaulty << std::endl;
+	//std::cout << "logo_scale: \t\t" << logo_scale << std::endl;
+	//std::cout << "defaultRadius: \t\t" << radius << std::endl;
 
 
 	panel = new wxPanel(this, -1);
-	y_box_1 = new wxBoxSizer(wxVERTICAL);
-
 
 	// folder
 	x_box_1 = new wxBoxSizer(wxHORIZONTAL);
+	y_box_1 = new wxBoxSizer(wxVERTICAL);
 
 	txt_folder = new wxStaticText(panel, wxID_ANY, wxT("   Folder Directory : "));
 	x_box_1->Add(txt_folder, 0, wxRIGHT, 8);
@@ -133,26 +139,26 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
 	// settings image button
 
-	wxPNGHandler* handler = new wxPNGHandler;
+	handler = new wxPNGHandler;
 	wxImage::AddHandler(handler);
 
-	wxBitmap bitmap = wxBitmap("./res/icon_settings.png", wxBITMAP_TYPE_PNG);
-	wxImage img = bitmap.ConvertToImage();
+	bitmap = wxBitmap(settings_icon_path, wxBITMAP_TYPE_PNG);
+	img = bitmap.ConvertToImage();
 
 	img.Rescale(32, 32);
 	bitmap = img;
 
-	wxBitmapButton* image = new wxBitmapButton(
+	image = new wxBitmapButton(
 		panel, BUTTON_settings, bitmap, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE
 	);
-
 
 	x_box_3->Add(image, 0, wxEXPAND | wxALL, 20);
 
 
 	// DynamicPanel 
-	DynamicPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL"));
 	DynamicBoxSizer = new wxBoxSizer(wxHORIZONTAL);
+
+	DynamicPanel = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL"));
 	DynamicPanel->SetSizer(DynamicBoxSizer);
 	y_box_1->Add(DynamicPanel, 1, wxEXPAND, 5);
 
@@ -171,23 +177,15 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
 void MyFrame::Button_Folder(wxCommandEvent& event)
 {
-	wxDirDialog* OpenDialog = new wxDirDialog(
-		this, _("the folder with all the photos"), defaultFolder
-	);
+	wxDirDialog* OpenDialog = new wxDirDialog( this, _("the folder with all the photos"), defaultFolder );
 
-	//wxFileDialog* OpenDialog = new wxFileDialog(
-	//	this, _("Choose a folder to open"),
-	//	wxEmptyString, wxEmptyString,
-	//	_("all files (*.*)|*.*"),
-	//	wxFD_OPEN, wxDefaultPosition
-	//);
 	
 	if (OpenDialog->ShowModal() == wxID_OK)
 	{
 		defaultFolder = OpenDialog->GetPath().ToAscii();
 		Button_folder->SetLabelText(defaultFolder);
 		
-		save_toFile(SaveState::SAVE_folderDir);
+		writeToFile(SaveState::SAVE_folderDir);
 
 		//update settings info
 		src_path = defaultFolder + '\\' + watermarker.get_all_file_names(defaultFolder, 1)[0];
@@ -218,7 +216,7 @@ void MyFrame::Button_Image(wxCommandEvent& event)
 		defaultImage = OpenDialog->GetPath().ToAscii();
 		Button_image->SetLabel(defaultImage);
 		
-		save_toFile(SaveState::SAVE_fileDir);
+		writeToFile(SaveState::SAVE_fileDir);
 
 		//update settings
 		logo_path = defaultImage;
@@ -233,17 +231,31 @@ void MyFrame::Button_Image(wxCommandEvent& event)
 	
 	//Clean up after ourselves
 	OpenDialog->Destroy();
+
+
+	//TODO update the size to reset the location
+	//double px_locX = procent_to_px(new_width_img, defaultx);
+	//double px_locY = procent_to_px(new_height_img, defaulty);
+
+	//// check logo position for staying in image 
+	//if ((px_locX + new_width_logo) > new_width_img)
+	//	px_locX -= ((px_locX + new_width_logo) - new_width_img);
+
+	//if ((px_locY + new_height_logo) > new_height_img)
+	//	px_locY -= ((px_locY + new_height_logo) - new_height_img);
+
+
 }
 
 void MyFrame::Button_Create(wxCommandEvent& event)
 {
 		
-	std::cout << "\n\n\n" << std::endl;
-	std::cout << "FolderPath: \t\t" << defaultFolder << std::endl;
-	std::cout << "ImagePath: \t\t" << defaultImage << std::endl;
-	std::cout << "location: \t\t" << defaultLocation << std::endl;
-	std::cout << "scale: \t\t" << defaultScale << std::endl;
-	std::cout << "radius: \t\t" << defaultRadius << std::endl;
+	//std::cout << "\n\n\n" << std::endl;
+	//std::cout << "FolderPath: \t\t" << defaultFolder << std::endl;
+	//std::cout << "ImagePath: \t\t" << defaultImage << std::endl;
+	//std::cout << "location: \t\t" << defaultLocation << std::endl;
+	//std::cout << "scale: \t\t" << defaultScale << std::endl;
+	//std::cout << "radius: \t\t" << defaultRadius << std::endl;
 
 
 	if (defaultFolder == "")
@@ -252,13 +264,13 @@ void MyFrame::Button_Create(wxCommandEvent& event)
 		Button_create->SetLabel("Image is empty");
 
 	// saving logo location
-	save_toFile(SaveState::SAVE_logoPos);
+	writeToFile(SaveState::SAVE_logoPos);
 
 	// Save_LogoSize
-	save_toFile(SaveState::SAVE_logoSize);
+	writeToFile(SaveState::SAVE_logoSize);
 	
 	// saving logo radius
-	save_toFile(SaveState::SAVE_borderRadius);
+	writeToFile(SaveState::SAVE_borderRadius);
 
 	//// saving logo color
 	//save_toFile(SaveState::SAVE_borderColor);
@@ -328,11 +340,18 @@ void MyFrame::Button_Settings(wxCommandEvent& event)
 		max_logo_width = img_logo.GetWidth();
 		max_logo_height = img_logo.GetHeight();
 
-		float src_scale_H = (float)((size_window_expand.GetHeight() - size_window_default.GetHeight()) - (src_padding * 4)) / (float)(new_height_img);
-		float src_scale_W =  (float)(size_window_expand.GetWidth() - (src_padding * 4)) / (float)(new_width_img);
+		old_window_width = size_window_default.GetWidth();
+		old_window_height = size_window_default.GetHeight();
+
+		new_window_width = size_window_expand.GetWidth();
+		new_window_height = size_window_expand.GetHeight();
 		
-		//take biggest
-		src_scale = std::min(src_scale_H, src_scale_W);
+		//take smallest
+		src_scale = std::min(
+			(float)((new_window_height - old_window_height) - (src_padding * 4)) / (float)(new_height_img)
+			, 
+			(float)(new_window_width - (src_padding * 4)) / (float)(new_width_img)
+		);
 
 		new_width_img = new_width_img * src_scale;
 		new_height_img = new_height_img * src_scale;
@@ -340,28 +359,18 @@ void MyFrame::Button_Settings(wxCommandEvent& event)
 		new_width_logo = (new_width_logo * src_scale) * logo_scale;
 		new_height_logo = (new_height_logo * src_scale) * logo_scale;
 
-		//Testing
-
 		max_logo_width = max_logo_width * src_scale;
 		max_logo_height = max_logo_height * src_scale;
 
 		new_width_logo = std::min(new_width_logo, max_logo_width);
 		new_height_logo = std::min(new_height_logo, max_logo_height);
 
-		//OOOO//
-
-		//-----//
-		
 
 		double px_locX = procent_to_px(new_width_img, defaultx);
 		double px_locY = procent_to_px(new_height_img, defaulty);
-		double center_logoX = centerPX_flow(new_width_img, new_width_logo, px_locX);
-		double center_logoY = centerPX_flow(new_height_img, new_height_logo, px_locY);
 
-		wxSize size_info = wxSize(
-			new_width_logo,	// width
-			new_height_logo	// height
-		);
+
+		wxSize size_info = wxSize( new_width_logo, new_height_logo );
 
 		// draw image src
 		draw_src = new wxImagePanel(DynamicPanel, img_src);
@@ -379,19 +388,15 @@ void MyFrame::Button_Settings(wxCommandEvent& event)
 
 
 		//TODO made this flowing from left to right so use a piece of calculation 
-		int x, y;
-		x = (px_locX + (src_padding / 2));
-		y = (px_locY + (src_padding / 2));
+		int x = (px_locX + (src_padding / 2));
+		int y = (px_locY + (src_padding / 2));
 
 		if (px_locX > (new_width_img / 2))
 			x += (src_padding / 2);
 		if (px_locY > (new_height_img / 2))
 			y += (src_padding / 2);
 
-
 		draw_logo->SetPosition(wxPoint(x, y));
-
-		//Testing
 		draw_logo->SetSize(size_info.x, size_info.y);
 		DynamicBoxSizer->Add(draw_logo, 0);
 
@@ -487,11 +492,9 @@ void MyFrame::Button_Settings(wxCommandEvent& event)
 
 void MyFrame::Save_Settings(wxCommandEvent& event)
 {
-	int old_x, old_y;
-	draw_logo->GetPosition(&old_x, &old_y);
+	int new_x, new_y;
+	draw_logo->GetPosition(&new_x, &new_y);
 
-	int new_x = old_x;
-	int new_y = old_y;
 
 	int new_val = event.GetInt() + (src_padding / 2);
 	if(event.GetId() == SLIDER_x)
@@ -506,12 +509,13 @@ void MyFrame::Save_Settings(wxCommandEvent& event)
  
 
 	//TODO made this flowing from left to right 
-	int x, y;
-	x = new_x - (src_padding / 2);
-	y = new_y - (src_padding / 2);
+	int x = new_x - (src_padding / 2);
+	int y = new_y - (src_padding / 2);
 
-	if (new_x > (new_width_img / 2))  x -= (src_padding / 2);
-	if (new_y > (new_height_img / 2)) y -= (src_padding / 2);
+	if (new_x > (new_width_img / 2))  
+		x -= (src_padding / 2);
+	if (new_y > (new_height_img / 2)) 
+		y -= (src_padding / 2);
 
 	defaultx = px_to_procent(new_width_img, x);
 	defaulty = px_to_procent(new_height_img, y);
@@ -531,11 +535,11 @@ void MyFrame::Save_Settings(wxCommandEvent& event)
 		((double)(new_width_img)-(double)((new_width_img - new_width_logo) * ((double)(defaultx) / 100.00)))
 	);
 
-	//update size slider
-	if (event.GetId() == SLIDER_x)
-		std::cout << "mV_sliderSize x-bar : " << mV_sliderSize << std::endl;
-	else
-		std::cout << "mV_sliderSize y-bar : " << mV_sliderSize << std::endl;
+// 	//update size slider
+// 	if (event.GetId() == SLIDER_x)
+// 		std::cout << "mV_sliderSize x-bar : " << mV_sliderSize << std::endl;
+// 	else
+// 		std::cout << "mV_sliderSize y-bar : " << mV_sliderSize << std::endl;
 
 	sliderSize->SetMax(mV_sliderSize);
 	
@@ -555,7 +559,7 @@ void MyFrame::Save_LogoSize(wxCommandEvent& event)
 	int new_w = (new_width_logo * l_scale);
 	int new_h = (new_height_logo * l_scale);
 
-	//protect against overflowing the border
+	//protect for overflowing border
 	if ((new_w >= max_logo_width) ||
 		(new_h >= max_logo_height)||
 		(point.x + new_w - (src_padding / 2)) >= new_width_img ||
@@ -564,7 +568,8 @@ void MyFrame::Save_LogoSize(wxCommandEvent& event)
 		return;
 	}
 
-	//TODO need to change to avoid flickering (Save_LogoRadius as example)
+	//TODO need to change to avoid flickering
+
 	draw_src = new wxImagePanel(DynamicPanel, img_src);
 	draw_src->SetPosition(wxPoint((src_padding / 2), (src_padding / 2)));
 	draw_src->SetSize(new_width_img, new_height_img);
@@ -592,17 +597,14 @@ void MyFrame::Save_LogoSize(wxCommandEvent& event)
 void MyFrame::Save_LogoRadius(wxCommandEvent& event)
 {
 	radius = event.GetInt();
-	std::cout << "radius value: " << radius << std::endl;
-	// small flickering 
+	//std::cout << "radius value: " << radius << std::endl;
 
 	draw_logo->radius = radius;
-
 	draw_src->Refresh(false);
 	draw_logo->Refresh(false);
 
 	// saving to file
 	defaultRadius = std::to_string(radius);
-
 }
 
 
@@ -617,24 +619,23 @@ void MyFrame::callThread(
 
 	//set button text to "Working"
 	Button_create->SetLabel("Working...");
-
-	watermarker.run_on_threads(
-		folderDir, 
-		logo_path, 
-		cv::Point(pos.x, pos.y), 
-		logo_scale, 
-		logo_radius, 
-		bg_color
-	);
-
-	// finished
+	{
+		watermarker.run_on_threads(
+			folderDir,
+			logo_path,
+			cv::Point(pos.x, pos.y),
+			logo_scale,
+			logo_radius,
+			bg_color
+		);
+	}
+	// finished ( todo he finished to fast ;) )
 	Button_create->SetLabel("Start WaterMaker");
 }
 
 double MyFrame::centerPX_flow(double px_full, double px_section, double px_size)
 {
-	double a = (double)(px_section) / (double)(px_full);
-	return a * px_size;
+	return (double)(px_section) / (double)(px_full) * px_size;
 }
 
 double MyFrame::procent_to_px(const int pixels, const double procent)
@@ -647,7 +648,26 @@ double MyFrame::px_to_procent(const double px_full, const double px_section)
 	return (double)(px_section) / (double)(px_full / 100);
 }
 
-void MyFrame::save_toFile(enum SaveState::Saving_enum enum_value)
+
+bool MyFrame::fileExists(const std::string& name)
+{
+	std::ifstream file(name);
+	return (bool)file;
+};
+
+bool MyFrame::dirExists(const std::string& dirName_in)
+{
+	DWORD ftyp = GetFileAttributesA(dirName_in.c_str());
+	if (ftyp == INVALID_FILE_ATTRIBUTES)
+		return false;  //something is wrong with your path!
+
+	if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+		return true;   // this is a directory!
+
+	return false;    // this is not a directory!
+}
+
+void MyFrame::writeToFile(enum SaveState::Saving_enum enum_value)
 {
 	bool saved = false;
 
@@ -682,16 +702,7 @@ void MyFrame::save_toFile(enum SaveState::Saving_enum enum_value)
 }
 
 
-void file_exists(const fs::path& p, fs::file_status s = fs::file_status{})
-{
-	std::cout << p;
-	if (fs::status_known(s) ? fs::exists(s) : fs::exists(p))
-		std::cout << " exists\n";
-	else
-		std::cout << " does not exist\n";
-};
-
-// for string delimiter
+//string delimiter
 std::vector<std::string> MyFrame::split(std::string s, std::string delimiter) {
 	size_t pos_start = 0, pos_end, delim_len = delimiter.length();
 	std::string token;

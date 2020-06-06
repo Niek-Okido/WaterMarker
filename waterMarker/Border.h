@@ -2,12 +2,15 @@
 
 #include <vector>
 #include <array>
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <time.h> 
 
 #include <opencv2/opencv.hpp>
 
-#include <stdio.h> 
-#include <stdlib.h> 
-#include<time.h> 
+
+
+
 
 class BorderRadius
 {
@@ -26,23 +29,25 @@ public:
 class Border
 {
 private:
+	double brightness = 0.90;		// 0.30 = 30% sticking out transparency
+
 	int blocks_count = 140;
 	int block_size = 5;
 
 	int procent_accurate = 90; // 0 - 100%   // for now prefer to use 2
-	bool logo_bg_white = true; // white (dark logo) or black(light logo) 
 
 	void Sort_small_to_large(std::vector<int>& a);
-	bool logo_is_dark(cv::Mat* overlay);
 
 
 public:	
 
-	int padding = 10;// 10 pixels width border
-	// std::array<unsigned char, 3> color = { 255, 255, 255 };// RGB border
-	int margin = 30;	// x > y ? x_img / 30% margin from bottom and right side of main image
+	int padding = 10;
+	int margin = 30;
 
 	double clarity_color(cv::Mat* src, cv::Mat* overlay, const cv::Point& location);
+
+	bool logo_bg_white; // white (dark logo) or black(light logo) 
+	bool logo_is_dark(cv::Mat* overlay);
 
 };
 

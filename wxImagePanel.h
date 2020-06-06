@@ -15,13 +15,28 @@
 
 class wxImagePanel : public wxPanel
 {
+public:
+	double radius;
+#if wxUSE_GRAPHICS_CONTEXT
+	wxGraphicsRenderer* m_renderer;
+	bool m_useAntiAliasing;
+#endif
+
+	wxImagePanel(
+		wxPanel* frame, 
+		wxImage image, 
+		bool border = false, 
+		wxSize image_size = { 0, 0 },
+		double radius = 0.00,
+		wxColour colorTint = { 255, 255, 255, 127 }
+	);
+
+private:
 	wxImage image;
 	bool border;
 	wxSize image_size;
-public:
-	double radius;
-private:
 	wxColour colorTint;
+	bool m_useBuffer;
 
 	int w, h;
 #if wxUSE_DC_TRANSFORM_MATRIX
@@ -33,38 +48,13 @@ private:
 	bool        m_xAxisReversed, m_yAxisReversed;
 	double      m_xUserScale, m_yUserScale;
 	wxMappingMode m_mapMode;
-
-public:
-#if wxUSE_GRAPHICS_CONTEXT
-	wxGraphicsRenderer* m_renderer;
-	bool m_useAntiAliasing;
-#endif
-
-private:
-	bool m_useBuffer;
-
-public:
-	wxImagePanel(
-		wxPanel* frame, 
-		wxImage image, 
-		bool border = false, 
-		wxSize image_size = { 0, 0 },
-		double radius = 0.00,
-		wxColour colorTint = { 255, 255, 255, 127 }
-	);
-
-
-private:
+	wxBitmap resized;
 
 	void paintEvent(wxPaintEvent& evt);
 	void paintNow();
 
 	void OnSize(wxSizeEvent& event);
-
-//
-	wxBitmap resized;
 	void render(wxDC& dc);
-//
 	void Draw(wxDC& pdc);
 
 #if wxDRAWING_DC_SUPPORTS_ALPHA || wxUSE_GRAPHICS_CONTEXT
@@ -82,8 +72,6 @@ private:
 #endif // wxUSE_GRAPHICS_CONTEXT
 
 	void OnEraseBackground(wxEraseEvent& event);
-
-
 
 	DECLARE_EVENT_TABLE()
 

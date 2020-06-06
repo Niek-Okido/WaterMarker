@@ -35,10 +35,6 @@ private:
 
 public:
 
-
-	//TODO next update:
-	//get all folders after this directory add to <vector> array
-	//getall_folders(folderPath);
 	void start( 
 		const std::string logo_path, 
 		cv::Mat logo_img, 
@@ -49,10 +45,6 @@ public:
 		const std::string folderPath, 
 		std::vector<std::string> folderFiles
 	);
-
-	/*const int radius = 10;
-	std::array<unsigned char, 3> bg_color_logo = {255, 255, 255};*/
-
 
 
 	int max_Thread_size = 5;

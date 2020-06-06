@@ -1,24 +1,6 @@
 #include "Logo.h"
 
-
-//void selectionSort(std::vector<int>& a) {
-//	int i, j, min, temp;
-//
-//	for (i = 0; i < (a.size() - 1); i++)
-//	{
-//		min = i;
-//		for (j = i + 1; j < a.size(); j++)
-//			if (a[j] < a[min])
-//				min = j;
-//		temp = a[i];
-//		a[i] = a[min];
-//		a[min] = temp;
-//		
-//	}
-//
-//}
-
-void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double border_color, const int radius_logo, std::array<unsigned char, 3> c_bgLogo)
+void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double clarity, const int radius_logo, std::array<unsigned char, 3> c_bgLogo)
 {
 
 	std::array<std::vector<cv::Point>, 4> loc_radius = border_radius.get_location(overlay, location, radius_logo);
@@ -34,7 +16,7 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 			if (fX >= overlay->cols) break;
 
 			double opacity = (((double)overlay->data[fY * overlay->step + fX * overlay->channels() + 3]) / 255) * this->brightness;
-			double limpid = border_color;
+			double limpid = clarity;
 
 
 			if (opacity < 1)//background
@@ -48,7 +30,6 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 						for (cv::Point p : loc_radius[0])
 							if (p.x < x && p.y < y)
 								limpid = 0.00;
-
 					}
 					else
 					{
@@ -56,7 +37,6 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 						for (cv::Point p : loc_radius[3])
 							if (p.x < x && p.y > y)
 								limpid = 0.00;
-
 					}
 				}
 				else
@@ -67,7 +47,6 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 						for (cv::Point p : loc_radius[1])
 							if (p.x > x && p.y < y)
 								limpid = 0.00;
-
 					}
 					else
 					{
@@ -82,6 +61,9 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 				for (int c = 0; c < src->channels(); ++c)
 				{
 					unsigned char srcPx = src->data[y * src->step + x * src->channels() + c];
+
+					//if logo is light // set opposite 
+					if (!border.logo_bg_white) c_bgLogo = { 0, 0, 0 };
 
 					int px_color = srcPx * (1. - limpid) + c_bgLogo[c] * limpid;// color background logo
 
@@ -106,7 +88,6 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 						for (cv::Point p : loc_radius[0])
 							if (p.x < x && p.y < y)
 								opacity = 0.00;
-
 					}
 					else
 					{
@@ -114,7 +95,6 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 						for (cv::Point p : loc_radius[3])
 							if (p.x < x && p.y > y)
 								opacity = 0.00;
-
 					}
 				}
 				else
@@ -125,7 +105,6 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 						for (cv::Point p : loc_radius[1])
 							if (p.x > x && p.y < y)
 								opacity = 0.00;
-
 					}
 					else
 					{
@@ -139,7 +118,6 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 
 				for (int c = 0; c < src->channels(); ++c)
 				{
-
 					unsigned char overlayPx = overlay->data[fY * overlay->step + fX * overlay->channels() + c];
 					unsigned char srcPx = src->data[y * src->step + x * src->channels() + c];
 					src->data[y * src->step + src->channels() * x + c] = srcPx * (1. - opacity) + overlayPx * opacity;
@@ -148,10 +126,10 @@ void Logo::set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double
 
 		}
 	}
-
-
 	//Testing
 
+	//test code here
+	
 	//Testing
 }
 
@@ -167,6 +145,10 @@ cv::Mat Logo::create(std::string logo_path)
 		border.padding, border.padding, border.padding, border.padding,//top bottom left right
 		cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0, 0)
 	);
+
+
+	//choose color logo (white or black) size
+	border.logo_bg_white = border.logo_is_dark(&logo_img);
 
 	return logo_img;
 }

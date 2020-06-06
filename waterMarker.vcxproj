@@ -38,6 +38,10 @@
     <Image Include="res\example.jpg" />
     <Image Include="res\icon_settings.png" />
     <Image Include="res\my_logo.png" />
+    <Image Include="res\WaterMarker.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

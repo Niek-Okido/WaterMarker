@@ -1,2 +1,8 @@
 .saved_data_waterMarker.txt
 .vs/*
+Debug/*
+vc_mswu_x64/*
+vc_mswud_x64/*
+x64/*
+.gitignore
+

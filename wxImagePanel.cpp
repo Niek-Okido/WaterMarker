@@ -1,18 +1,20 @@
 #include "wxImagePanel.h"
 
-
-
 BEGIN_EVENT_TABLE(wxImagePanel, wxPanel)
-EVT_ERASE_BACKGROUND(wxImagePanel::OnEraseBackground)
-EVT_PAINT(wxImagePanel::paintEvent)
-EVT_SIZE(wxImagePanel::OnSize)
+	EVT_ERASE_BACKGROUND(wxImagePanel::OnEraseBackground)
+	EVT_PAINT(wxImagePanel::paintEvent)
+	EVT_SIZE(wxImagePanel::OnSize)
 END_EVENT_TABLE()
 
 
-wxImagePanel::wxImagePanel( wxPanel* panel, wxImage image, 
-	bool border, wxSize image_size, double radius, wxColour colorTint) 
-	
-	: wxPanel{ panel }, image{ image }, border{ border }, radius{ radius }, image_size{ image_size }, colorTint{ colorTint }
+wxImagePanel::wxImagePanel( 
+	wxPanel* panel, wxImage image, bool border, wxSize image_size, double radius, wxColour colorTint
+) : wxPanel{ panel }, 
+	image{ image }, 
+	border{ border }, 
+	radius{ radius }, 
+	image_size{ image_size }, 
+	colorTint{ colorTint }
 {
 
 	w = -1;
@@ -23,20 +25,21 @@ wxImagePanel::wxImagePanel( wxPanel* panel, wxImage image,
 	m_yUserScale = 1.0;
 	m_xLogicalOrigin = 0;
 	m_yLogicalOrigin = 0;
-	m_xAxisReversed =
-		m_yAxisReversed = false;
-	#if wxUSE_DC_TRANSFORM_MATRIX
-		m_transform_dx = 0.0;
-		m_transform_dy = 0.0;
-		m_transform_scx = 1.0;
-		m_transform_scy = 1.0;
-		m_transform_rot = 0.0;
-	#endif // wxUSE_DC_TRANSFORM_MATRIX
+	m_xAxisReversed = false;
+	m_yAxisReversed = false;
 
-	#if wxUSE_GRAPHICS_CONTEXT
-		m_renderer = NULL;
-		m_useAntiAliasing = true;
-	#endif
+#if wxUSE_DC_TRANSFORM_MATRIX
+	m_transform_dx = 0.0;
+	m_transform_dy = 0.0;
+	m_transform_scx = 1.0;
+	m_transform_scy = 1.0;
+	m_transform_rot = 0.0;
+#endif // wxUSE_DC_TRANSFORM_MATRIX
+
+#if wxUSE_GRAPHICS_CONTEXT
+	m_renderer = NULL;
+	m_useAntiAliasing = true;
+#endif
 	m_useBuffer = false;
 
 	// add transparency
@@ -68,7 +71,6 @@ void wxImagePanel::paintNow()
 
 void wxImagePanel::OnSize(wxSizeEvent& event) {
 	this->Refresh();
-	//this->Update();
 	//skip the event.
 	event.Skip();
 }
@@ -105,14 +107,6 @@ void wxImagePanel::render(wxDC& dc)
 			dc.DrawBitmap(resized, 0, 0, true);
 		}
 	}
-
-
-
-
-	// draw a rectangle
-	//dc.SetBrush(*wxBLUE_BRUSH); // blue filling
-	//dc.SetPen(wxPen(wxColor(255, 175, 175), 10)); // 10-pixels-thick pink outline
-	//dc.DrawRectangle(wxRect(100, 100, 100, 100));
 
 }
 
@@ -231,5 +225,5 @@ void wxImagePanel::UseGraphicRenderer(wxGraphicsRenderer* renderer)
 
 void wxImagePanel::OnEraseBackground(wxEraseEvent& event)
 {
-
+	//
 }

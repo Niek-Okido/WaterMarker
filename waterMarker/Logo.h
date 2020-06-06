@@ -15,8 +15,7 @@ private:
 
 public:
 	double brightness = 0.90;		// 0.30 = 30% sticking out transparency
-	double resize_scale = 0.30;			// dimensions 30% of image
-	// double reduce_step = 0.99;			// reduce 1% per round
+	double resize_scale = 0.30;		// dimensions 30% of image
 
 	void set(cv::Mat* src, cv::Mat* overlay, const cv::Point& location, double border_color, const int radius_logo, std::array<unsigned char, 3> c_bgLogo);
 
