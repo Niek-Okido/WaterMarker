@@ -1,0 +1,36 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
+  MainApp.cpp
+  Border.cpp
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Border.cpp(62,15): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Border.cpp(69,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Border.cpp(121,22): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Logo.cpp
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Logo.cpp(86,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Logo.cpp(145,82): warning C4244: '=': conversion from 'double' to 'uchar', possible loss of data
+  WaterMarker.cpp
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\WaterMarker.cpp(45,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\WaterMarker.cpp(46,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\WaterMarker.cpp(75,23): warning C4244: 'argument': conversion from 'double' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\WaterMarker.cpp(75,14): warning C4244: 'argument': conversion from 'double' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\WaterMarker.cpp(85,23): warning C4244: 'argument': conversion from 'double' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\WaterMarker.cpp(85,14): warning C4244: 'argument': conversion from 'double' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+  Generating Code...
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1278,5): warning MSB8012: TargetPath(D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\vc_mswud_x64\waterMarker.exe) does not match the Linker's OutputFile property value (D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\vc_mswud_x64\drawing.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1280,5): warning MSB8012: TargetName(waterMarker) does not match the Linker's OutputFile property value (drawing). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+  waterMarker.vcxproj -> D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\vc_mswud_x64\waterMarker.exe

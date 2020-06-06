@@ -1,0 +1,51 @@
+﻿  Logo.cpp
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Border.h(20,16): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Logo.cpp(69,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Logo.cpp(128,82): warning C4244: '=': conversion from 'double' to 'uchar', possible loss of data
+  MainApp.cpp
+  Border.cpp
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Border.h(20,16): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  SaveState.cpp
+  WaterMarker.cpp
+D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\waterMarker\Border.h(20,16): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1278,5): warning MSB8012: TargetPath(D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\x64\Release\waterMarker.exe) does not match the Linker's OutputFile property value (D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\vc_mswu_x64\drawing.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1280,5): warning MSB8012: TargetName(waterMarker) does not match the Linker's OutputFile property value (drawing). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+wxmsw31u_core.lib(app.obj) : error LNK2001: unresolved external symbol __imp_InitCommonControls
+wxmsw31u_core.lib(msw_spinbutt.obj) : error LNK2001: unresolved external symbol __imp_CreateUpDownControl
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Create
+wxmsw31u_core.lib(ownerdrw.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Create
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Create
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Destroy
+wxmsw31u_core.lib(ownerdrw.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Destroy
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Destroy
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_GetImageCount
+wxmsw31u_core.lib(msw_listctrl.obj) : error LNK2001: unresolved external symbol __imp_ImageList_GetImageCount
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Add
+wxmsw31u_core.lib(ownerdrw.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Add
+wxmsw31u_core.lib(treectrl.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Add
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Add
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_ReplaceIcon
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_ReplaceIcon
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_SetBkColor
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Draw
+wxmsw31u_core.lib(ownerdrw.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Draw
+wxmsw31u_core.lib(msw_listctrl.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Draw
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Replace
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_AddMasked
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Remove
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_GetIcon
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_GetIconSize
+wxmsw31u_core.lib(msw_listctrl.obj) : error LNK2001: unresolved external symbol __imp_ImageList_GetIconSize
+wxmsw31u_core.lib(imaglist.obj) : error LNK2001: unresolved external symbol __imp_ImageList_GetImageInfo
+wxmsw31u_core.lib(treectrl.obj) : error LNK2001: unresolved external symbol __imp_ImageList_Copy
+wxmsw31u_core.lib(uuid.obj) : error LNK2001: unresolved external symbol __imp_RpcStringFreeW
+wxmsw31u_core.lib(uuid.obj) : error LNK2001: unresolved external symbol __imp_UuidCreate
+wxmsw31u_core.lib(uuid.obj) : error LNK2001: unresolved external symbol __imp_UuidToStringW
+wxmsw31u_core.lib(uuid.obj) : error LNK2001: unresolved external symbol __imp_UuidFromStringW
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_BeginDrag
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_EndDrag
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_DragEnter
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_DragLeave
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_DragMove
+wxmsw31u_core.lib(dragimag.obj) : error LNK2001: unresolved external symbol __imp_ImageList_SetDragCursorImage
+vc_mswu_x64\drawing.exe : fatal error LNK1120: 26 unresolved externals
