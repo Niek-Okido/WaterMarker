@@ -1,9 +1,0 @@
-﻿  MainApp.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1278,5): warning MSB8012: TargetPath(D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\vc_mswu_x64\waterMarker.exe) does not match the Linker's OutputFile property value (D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\vc_mswu_x64\drawing.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1280,5): warning MSB8012: TargetName(waterMarker) does not match the Linker's OutputFile property value (drawing). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
-  Generating code
-  1 of 1693 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    9 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  waterMarker.vcxproj -> D:\Programming\learn\C.C++_learn\learn\waterMarker\try_1\waterMarker\vc_mswu_x64\waterMarker.exe
