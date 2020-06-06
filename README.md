@@ -32,3 +32,10 @@ Niek Tuytel (@Okido)
 
 some pictures:
 
+![Alt text](https://github.com/Niek-Okido/WaterMarker/tree/master/res/github/1.png?raw=true "default bar")
+![Alt text](https://github.com/Niek-Okido/WaterMarker/tree/master/res/github/2.png?raw=true "settings bar")
+![Alt text](https://github.com/Niek-Okido/WaterMarker/tree/master/res/github/3.png?raw=true "result")
+![Alt text](https://github.com/Niek-Okido/WaterMarker/tree/master/res/github/4.png?raw=true "result")
+![Alt text](https://github.com/Niek-Okido/WaterMarker/tree/master/res/github/5.png?raw=true "result")
+![Alt text](https://github.com/Niek-Okido/WaterMarker/tree/master/res/github/6.png?raw=true "result")
+
